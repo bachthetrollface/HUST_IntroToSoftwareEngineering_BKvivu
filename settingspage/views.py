@@ -33,7 +33,6 @@ def settingsPage(request):
     return redirect('settingspage:gerenalPage')
 
 
-
 #####-------- Sản phẩm -------######
 # ProductPage
 def ProductManager(request):
@@ -44,6 +43,7 @@ def ProductManager(request):
         'user' : user
     }
     return render(request, 'products/product.html', context)
+
 #Tạo sản phẩm mới
 class CreateProduct(View):
     def get(self, request):
@@ -74,7 +74,6 @@ class CreateProduct(View):
                 newProduct.delete()
                 messages.error(request, "Thêm sản phẩm thất bại")
             return redirect('settingspage:product')
-
 
 #Xóa Sản phẩm
 def deleteProduct(request, product_id):
@@ -133,7 +132,6 @@ def generalPage(request):
                 'acc': acc,
                 'user': user,
             }
-
             return render(request, 'general/general.html', context)
         else:
             user.name = request.POST.get('name')
@@ -185,7 +183,6 @@ def generalPage(request):
 
 #Bill Page
 def billsPage(request):
-   
     acc = Account.objects.get(user_ptr=request.user)
     user = Sharer.objects.get(account= acc) if acc.role == 'sharer' else Manager.objects.get(account= acc)
     bills = user.bill_set.all()

@@ -15,12 +15,15 @@ from homepage.models import *
 def profilePage(request, acc_id):
     if not request.user.is_authenticated:
         return redirect('homepage:loginPage')
+    
     # target_acc , target_user : đối tượng mà mình vào xem trang cá nhân
     target_acc = Account.objects.get(pk=acc_id)
     target_user = Sharer.objects.get(account= target_acc) if target_acc.role == 'sharer' else Manager.objects.get(account= target_acc)
+    
     # acc, user : Bản thân người đang đăng nhập
     acc = Account.objects.get(user_ptr=request.user)
     user = Sharer.objects.get(account= acc) if acc.role == 'sharer' else Manager.objects.get(account= acc)
+    
     # Lấy số sao đã vote của người đăng nhập nếu profile đang xem là Manager
     starsvotetarget = 5
     if(target_acc.role == 'manager') and (target_acc.id != acc.id):
@@ -29,9 +32,9 @@ def profilePage(request, acc_id):
             starsvotetarget = voteobj.stars
         except:
             pass
+    
     # Danh sách những bài viết mà người dùng đã like
     listPosts = Post.objects.filter(account = target_acc).order_by('-time')
- 
     listPostsLike = []
     for _posts in listPosts:
         if UserLike.objects.filter(account= acc, post = _posts):
@@ -76,7 +79,6 @@ def logout_view(request):
         return redirect('homepage:loginPage')
     logout(request)
     return redirect('homepage:homePage')
-
 
 
 #Chat
@@ -143,6 +145,8 @@ def chatPage(request, acc_id, user_id):
             'all_user': list_all_user
         }
         return render(request, "chat/chat.html", context)
+
+
 #send message
 def save_message(request, acc_id, user_id):
     if request.method == 'POST':
@@ -156,6 +160,7 @@ def save_message(request, acc_id, user_id):
         time = newMessage[0].time
         data = {'message': content, 'time': time, 'success' : True, 'user_id': user_id, 'message_id': message_id}
         return JsonResponse(data)
+
 #update message
 def get_message(request, acc_id, user_id):
     acc1 = Account.objects.get(user_ptr=request.user)
