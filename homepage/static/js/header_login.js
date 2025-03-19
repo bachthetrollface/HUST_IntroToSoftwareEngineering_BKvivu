@@ -1,27 +1,22 @@
 const hiddenElement = document.querySelector(".subnav");
 const hiddenElement_login = document.querySelector(".login");
 
-let check = false;
+
 tab_login.addEventListener("mouseover", () => {
-  check = !check;
-  if( check){
-    hiddenElement_login.style.display = "block";
-  }
-  else{
-    hiddenElement_login.style.display = "none";
-  }
-  // hiddenElement_login.addEventListener("mouseover", () => {
-  //   hiddenElement_login.style.display = "block";
-  // });
+  hiddenElement_login.style.display = "block";
 });
 
-// tab_login.addEventListener("mouseout", () => {
-//   hiddenElement_login.style.display = "none";
-// });
+hiddenElement_login.addEventListener("mouseover", () => {
+    hiddenElement_login.style.display = "block";
+});
 
-// hiddenElement_login.addEventListener("mouseout", () => {
-//     hiddenElement_login.style.display = "none";
-//   });
+tab_login.addEventListener("mouseout", () => {
+  hiddenElement_login.style.display = "none";
+});
+
+hiddenElement_login.addEventListener("mouseout", () => {
+    hiddenElement_login.style.display = "none";
+});
 
 
 // Get the modal
@@ -33,7 +28,6 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
-
 
 function checkPassword() {
   // Kiểm tra điều kiện và thiết lập thuộc tính disabled
